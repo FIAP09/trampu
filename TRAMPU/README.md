@@ -1,14 +1,60 @@
+<img src="web/assets/marca.svg" alt="Marca Trampu" width="54">
+
 # Trampu
 
 **Seu próximo trampo está mais perto do que você imagina.**
 
 Uma diária de jardinagem pode estar disponível a poucas quadras de quem procura trabalho. Quando a divulgação depende de indicações, essa pessoa pode nunca saber da oportunidade. O Trampu reúne serviços temporários por cidade, categoria, data e remuneração. Trabalhadores podem manifestar interesse e acompanhar a decisão. Pequenos negócios, famílias e organizadores podem formar equipes para um turno.
 
-Projeto acadêmico da Global Solution FIAP 2026/2. O desafio CitizenTech orienta a proposta de partir de uma necessidade local e identificar quem se beneficia. Os critérios técnicos usados nesta entrega são os do enunciado fornecido pelo grupo. [Tema público da FIAP](https://experience.fiap.com.br/global-solution-citizen-tech)
+Projeto acadêmico de Engenharia de Software para a **Global Solution FIAP 2026/2 · CitizenTech**. [Tema público da FIAP](https://experience.fiap.com.br/global-solution-citizen-tech)
+
+[Equipe](#equipe) · [Critérios da FIAP](#critérios-da-fiap) · [Protótipo web](#protótipo-web) · [Diagramas](#diagramas) · [Console Java](#console-java) · [Banco SQLite](#banco-sqlite) · [Vídeo pitch](#vídeo-pitch)
+
+## Equipe
+
+**Grupo Trampu** · Engenharia de Software · Turma 2ESOR
+
+| Integrante | RM |
+|---|---|
+| Erick Marilhano | 575534 |
+| Matheus Audibert | 568080 |
+| Arthur Furkim Machado | 567608 |
+| Thiago Augusto Saccomani | 566731 |
+| Eder Felipe Dias de Jesus | 568341 |
+
+## Critérios da FIAP
+
+| Parte | Critério | Pontos possíveis | Como conferir |
+|---|---|---:|---|
+| Java | Diagrama de classes | 1 | Compare as três classes de domínio e as duas classes de aplicação com as [duas vistas do UML](#diagramas). |
+| Java | Entidades bem modeladas | 1 | As [entidades](java/src/model) têm atributos privados e construtores. Há acesso por getters, setters para o título e o valor e associações por referências a objetos. |
+| Java | CRUD pelo menu | 2 | No [menu](java/src/main/Menu.java), use 3 para publicar, 4 para listar, 5 para buscar, 6 para atualizar e 7 para remover uma publicação aberta sem candidaturas. |
+| Java | Camadas separadas | 1 | O menu recebe a entrada, o [serviço](java/src/service/TrampuService.java) aplica as regras e as entidades representam os dados. |
+| Java | Validações | 1 | Digite letras em uma opção numérica ou tente candidatar a mesma pessoa duas vezes. O console explica o erro e volta ao menu. |
+| Banco | Diagrama ER | 2 | Confira cinco tabelas, chaves e cardinalidades no [DER](diagramas/der/relacionamentos.svg). |
+| Banco | Script SQL | 2 | Execute o [script](banco/trampu.sql) em um banco novo. Ele cria tabelas, aplica PK, FK, NOT NULL, UNIQUE e CHECK, insere exemplos e executa consultas. |
+| Web | Navegação | 1 | Abra a página inicial e siga os links para oportunidades, detalhes e cadastro. As [sete páginas](web) compartilham o menu. |
+| Web | Interatividade com dados | 2 | Filtre por Salto e Jardinagem. O [código da busca](web/js/interface.js) atualiza os cards no DOM a partir dos [arrays de objetos](web/js/dominio.js). |
+| Web | Formulário com validação | 1 | Envie um cadastro vazio e confira a mensagem de erro na própria página. [Formulários e eventos](web/js/fluxos.js) |
+| Web | Responsividade e design | 1 | Compare a navegação, as categorias e os cards em larguras de celular e computador. [Capturas do protótipo](#protótipo-web) |
+| Pitch | Problema e cidadão (1), demonstração das três partes (2), impacto e diferencial (1), clareza e tempo (1) | 5 | O grupo vai gravar o protótipo em funcionamento. [Roteiro de gravação](PITCH.md) |
+
+## Protótipo web
+
+A página inicial reúne os serviços por categoria. Na busca, uma pessoa pode combinar cidade, categoria, data e remuneração mínima. O card informa o valor por pessoa, o turno e quantas vagas ainda estão abertas.
+
+![Página inicial do Trampu no computador, com busca por serviço e cidade, categorias e oportunidades recentes](docs/telas/inicio.jpg)
+
+<details>
+<summary>Ver o resultado da busca por jardinagem em Salto no celular</summary>
+
+<img src="docs/telas/busca-celular.jpg" alt="Uma vaga de auxiliar de jardinagem em Salto, por R$ 130 pelo serviço, das 8h às 13h" width="300">
+
+</details>
 
 ## Abrir o protótipo
 
-A partir da pasta **TRAMPU**, execute o comando abaixo em um terminal com Node.js e mantenha a janela aberta.
+Depois de extrair o ZIP, abra `web/index.html` dentro da pasta **TRAMPU** para explorar o site no navegador. Para a demonstração com os dois perfis em abas diferentes, abra um terminal nessa pasta, execute o comando abaixo com Node.js e mantenha a janela aberta.
 
 ```sh
 node servir.cjs
@@ -37,7 +83,33 @@ As datas iniciais são relativas à primeira abertura. Dados de exemplo, perfis 
 
 O campo **remuneração** representa o total combinado por pessoa pelo serviço. A web exibe reais, o Java usa BigDecimal e o banco armazena centavos inteiros. “Preenchida” indica que as posições foram ocupadas. “Concluída” indica que o contratante encerrou o serviço após o horário final. Candidaturas anteriores continuam acessíveis no histórico.
 
-O planejamento contém personas, casos de uso, regras e limites do MVP. Os diagramas em SVG abrem diretamente no navegador e podem ser ampliados durante o pitch. [Planejamento](PLANEJAMENTO.md) · [Classes Java](diagramas/uml/classes.svg) · [DER](diagramas/der/relacionamentos.svg)
+As personas, os casos de uso e os limites da demonstração estão no [planejamento](PLANEJAMENTO.md).
+
+## Diagramas
+
+### UML das entidades
+
+Um contratante publica oportunidades. Cada candidatura liga um trabalhador a uma oportunidade e registra a decisão da seleção. O diagrama identifica os dois papéis de `Usuario` e mostra os atributos, construtores e métodos das três classes.
+
+![Diagrama de classes do domínio com Usuario, Oportunidade, Candidatura e suas multiplicidades](diagramas/uml/classes.svg)
+
+[Ampliar UML das entidades](diagramas/uml/classes.svg)
+
+### UML das camadas do console
+
+`Menu` lê o terminal e chama `TrampuService`. O serviço mantém as três listas e verifica, entre outras regras, se a pessoa pode publicar, se a candidatura já existe e se há vaga para mais uma aprovação.
+
+![Diagrama de classes de Menu e TrampuService com seus membros e associações às entidades](diagramas/uml/camadas.svg)
+
+[Ampliar UML das camadas](diagramas/uml/camadas.svg)
+
+### Diagrama entidade-relacionamento
+
+As cinco tabelas representam usuários, categorias, oportunidades, candidaturas e avaliações. A combinação única de trabalhador e oportunidade impede a inscrição duplicada. A avaliação referencia a candidatura e seu autor, permitindo uma avaliação de cada parte.
+
+![DER do Trampu com cinco tabelas, chaves primárias e estrangeiras e cardinalidades](diagramas/der/relacionamentos.svg)
+
+[Ampliar DER](diagramas/der/relacionamentos.svg) · [Conferir o script SQL](banco/trampu.sql)
 
 ## Console Java
 
@@ -83,6 +155,27 @@ Para repetir a verificação do script sem instalar a CLI, o comando abaixo usa 
 node verificacao/regras.cjs
 ```
 
+## Vídeo pitch
+
+**Situação: a gravar pelo grupo Trampu.**
+
+| Tempo | O que mostrar e dizer |
+|---|---|
+| 0:00–0:30 | Apresentar o viveiro que precisa de ajuda e a trabalhadora que procura uma diária, mas está fora da rede de indicações. |
+| 0:30–0:50 | Explicar a proposta enquanto se busca um serviço por cidade. Mostrar o valor e o turno antes da candidatura. |
+| 0:50–1:40 | No site, candidatar Joana à vaga de jardinagem e, no painel da Flora Jardins, aprovar Joana. Mostrar a vaga preenchida e a confirmação no painel da trabalhadora. |
+| 1:40–2:10 | Executar a candidatura no console Java. No banco, mostrar o DER e a consulta que conta interessados e aprovados por oportunidade. |
+| 2:10–2:40 | Relacionar a transparência da remuneração e o acesso por cidade aos ODS. Explicar como um piloto mediria trabalhos concluídos e vagas preenchidas. |
+| 2:40–3:00 | Fechar com o diferencial para quem depende de indicações e com o próximo passo de validação com trabalhadores e contratantes locais. |
+
+Depois da gravação, o grupo deve confirmar o limite de três minutos, testar o acesso ao vídeo em uma aba anônima e inserir o endereço público aqui e em `integrantes.txt` antes de empacotar a entrega.
+
+## Diferenciais
+
+As consultas com JOIN respondem a três perguntas da seleção. Quais vagas abertas existem por cidade e categoria? Quantas pessoas se candidataram e quantas foram aprovadas em cada anúncio? Qual remuneração estava prevista para cada trabalhador pelos serviços concluídos? As três consultas estão ao final do [script SQLite](banco/trampu.sql).
+
+O código está versionado no GitHub. A demonstração documentada é local. A publicação pelo GitHub Pages, contribuições identificadas de cada integrante e o relato de testes com o público são diferenciais para a escolha do vencedor, fora dos 20 pontos da rubrica. Para validar com pessoas reais, o grupo pode observar uma pessoa buscando uma diária e outra publicando um serviço, registrar onde tiveram dificuldade e documentar a mudança feita a partir do relato.
+
 ## CitizenTech e indicadores propostos
 
 | Objetivo | Como o Trampu pode contribuir | Como verificar em um piloto |
@@ -107,7 +200,7 @@ Use o mesmo período de observação ao comparar cidades. Para a taxa de preench
 |---|---|
 | Java POO · 6 pontos possíveis | Compilação com JDK 17 e execução do menu. Exercitados entrada inválida, cadastro, listagem, publicação, busca, atualização, remoção, duplicidade, aprovação da última vaga e rejeição das pendências. |
 | Banco de dados · 4 pontos possíveis | Script executado integralmente em SQLite em memória. Verificados integridade, chaves estrangeiras, estados da visão e bloqueios de inscrições e avaliações inválidas. |
-| Protótipo web · 5 pontos possíveis | No Edge, busca com filtros de cidade, categoria, valor e data. Testados cadastro inválido e válido, publicação, candidatura, aprovação, conclusão de exemplo histórico e avaliação bilateral. A página inicial, resultados, cadastro, detalhes e painel do trabalhador foram verificados a 360 px de largura. |
+| Protótipo web · 5 pontos possíveis | No Edge, busca com filtros de cidade, categoria, valor e data. Testados cadastro inválido e válido, publicação, candidatura, aprovação, conclusão de exemplo histórico e avaliação bilateral. As sete páginas extraídas do ZIP foram abertas no Edge a 360 e 1280 px, com o menu presente e sem rolagem horizontal nessas larguras. |
 | Pitch · 5 pontos possíveis | Roteiro com marcações de 0:00 a 3:00, fala e sequência de telas. Gravação, publicação e link público dependem do grupo. |
 
 O teste do navegador usou perfis fictícios. Não foi realizado estudo com usuários. A distribuição de pontos acima reproduz o enunciado e não representa nota concedida.
