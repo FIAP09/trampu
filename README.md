@@ -10,15 +10,13 @@
 </p>
 
 <p align="center">
-  Global Solution 2026/2 · <strong>CitizenTech</strong> · FIAP · Engenharia de Software
+  Global Solution 2026/2 - <strong>CitizenTech</strong> - FIAP - Engenharia de Software
 </p>
 
 <p align="center">
-  <a href="#">🌐 Protótipo no ar (GitHub Pages)</a> ·
+  <a href="#">🌐 Protótipo no ar</a> ·
   <a href="#">🎬 Vídeo pitch</a>
 </p>
-
-> ⚠️ **Antes de entregar:** troque os dois links acima, preencha a tabela de integrantes e confira a seção de uso de IA.
 
 ---
 
@@ -40,11 +38,13 @@
 
 ## Integrantes
 
-| Nome | RM |
+| RM | Nome |
 |---|---|
-| _Nome do integrante 1_ | _RM00000_ |
-| _Nome do integrante 2_ | _RM00000_ |
-| _Nome do integrante 3_ | _RM00000_ |
+| RM575534 | Erick Marilhano |
+| RM568080 | Matheus Audibert |
+| RM567608 | Arthur Furkim Machado |
+| RM566731 | Thiago Augusto Saccomani |
+| RM568341 | Eder Felipe Dias de Jesus |
 
 ---
 
@@ -416,7 +416,7 @@ A mensagem aparece embaixo de cada campo assim que a pessoa sai dele, e no envio
 
 ### Validação com gente real
 
-> _Preencher: com quem o grupo conversou (por exemplo, donos de pousada, trabalhadores de temporada), o que essas pessoas disseram e o que mudou no projeto por causa disso._
+Validado com donos de restaurantes em Santo Antônio do Pinhal - SP
 
 ---
 
