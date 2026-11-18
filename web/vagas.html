@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vagas · Trampu</title>
+  <meta name="description" content="Vagas abertas na sua região: emprego fixo, temporada e bicos.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="container">
+      <a class="marca" href="index.html" aria-label="Trampu, página inicial">
+        <img src="img/logo.svg" alt="" width="23" height="30">
+        <span>Trampu</span>
+      </a>
+      <button class="menu-botao" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">☰</button>
+      <nav class="menu" id="menu" aria-label="Menu principal">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="vagas.html" aria-current="page">Vagas</a></li>
+          <li data-visitante><a href="entrar.html">Entrar</a></li>
+          <li data-visitante class="destaque"><a href="cadastro.html">Criar conta</a></li>
+          <li data-logado class="oculto"><a href="painel.html">Meu painel</a></li>
+          <li data-logado class="oculto"><a href="#" data-sair>Sair</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="titulo-pagina">
+      <h1>Vagas na região</h1>
+      <p>Filtre por cidade, área e tipo de trabalho. Clique numa vaga para ver os detalhes e se candidatar.</p>
+    </section>
+
+    <div class="layout-vagas">
+      <aside class="filtros cartao" aria-label="Filtros">
+        <form id="form-filtros">
+          <div class="campo">
+            <label for="f-texto">Buscar</label>
+            <input id="f-texto" type="search" placeholder="Ex.: garçom, colheita">
+          </div>
+          <div class="campo">
+            <label for="f-cidade">Cidade</label>
+            <select id="f-cidade"></select>
+          </div>
+          <div class="campo">
+            <label for="f-categoria">Área</label>
+            <select id="f-categoria"></select>
+          </div>
+          <fieldset>
+            <legend class="legenda">Tipo de trabalho</legend>
+            <div class="chips" id="f-tipos">
+              <button type="button" class="chip" data-tipo="" aria-pressed="true">Todos</button>
+              <button type="button" class="chip" data-tipo="FIXO" aria-pressed="false">Fixo</button>
+              <button type="button" class="chip" data-tipo="TEMPORARIO" aria-pressed="false">Temporário</button>
+              <button type="button" class="chip" data-tipo="BICO" aria-pressed="false">Bico</button>
+            </div>
+          </fieldset>
+          <label class="opcao oculto" id="f-minhas-rotulo">
+            <input id="f-minhas" type="checkbox">
+            Só nas minhas cidades
+          </label>
+          <div class="campo" style="margin-top:16px">
+            <label for="f-ordem">Ordenar por</label>
+            <select id="f-ordem">
+              <option value="recentes">Mais recentes</option>
+              <option value="proximas">Começam antes</option>
+              <option value="valor">Maior valor</option>
+            </select>
+          </div>
+          <button class="botao secundario largo" type="reset">Limpar filtros</button>
+        </form>
+      </aside>
+
+      <section aria-labelledby="titulo-resultado">
+        <h2 id="titulo-resultado" class="sr-only">Resultado</h2>
+        <p class="contador" id="contador" aria-live="polite"></p>
+        <div class="grade" id="lista-vagas"></div>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="detalhe" aria-labelledby="detalhe-titulo"><div class="dialogo-corpo"></div></dialog>
+
+  <footer class="rodape-site">
+    <div class="container">
+      <p><strong>Trampu</strong> · Global Solution 2026/2 · CitizenTech · FIAP</p>
+      <p>Protótipo com dados de exemplo · <button type="button" data-restaurar>Restaurar dados de exemplo</button></p>
+    </div>
+  </footer>
+
+  <script src="js/dados.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/detalhe.js"></script>
+  <script src="js/vagas.js"></script>
+</body>
+</html>

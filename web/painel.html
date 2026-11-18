@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meu painel · Trampu</title>
+  <meta name="description" content="Suas vagas, candidaturas e perfil na Trampu.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="container">
+      <a class="marca" href="index.html" aria-label="Trampu, página inicial">
+        <img src="img/logo.svg" alt="" width="23" height="30">
+        <span>Trampu</span>
+      </a>
+      <button class="menu-botao" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">☰</button>
+      <nav class="menu" id="menu" aria-label="Menu principal">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="vagas.html">Vagas</a></li>
+          <li data-visitante><a href="entrar.html">Entrar</a></li>
+          <li data-visitante class="destaque"><a href="cadastro.html">Criar conta</a></li>
+          <li data-logado class="oculto"><a href="painel.html" aria-current="page">Meu painel</a></li>
+          <li data-logado class="oculto"><a href="#" data-sair>Sair</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding-bottom:56px">
+    <section class="titulo-pagina">
+      <div class="aviso ok" id="boas-vindas" role="status"></div>
+      <div class="perfil-topo" id="perfil-topo"></div>
+    </section>
+
+    <div class="abas" role="tablist" id="abas"></div>
+    <div id="conteudo"></div>
+  </main>
+
+  <dialog id="detalhe" aria-labelledby="detalhe-titulo"><div class="dialogo-corpo"></div></dialog>
+
+  <footer class="rodape-site">
+    <div class="container">
+      <p><strong>Trampu</strong> · Global Solution 2026/2 · CitizenTech · FIAP</p>
+      <p>Protótipo com dados de exemplo · <button type="button" data-restaurar>Restaurar dados de exemplo</button></p>
+    </div>
+  </footer>
+
+  <script src="js/dados.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/detalhe.js"></script>
+  <script src="js/painel.js"></script>
+</body>
+</html>

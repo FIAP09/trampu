@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Criar conta · Trampu</title>
+  <meta name="description" content="Crie sua conta de trabalhador ou de empregador na Trampu.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="container">
+      <a class="marca" href="index.html" aria-label="Trampu, página inicial">
+        <img src="img/logo.svg" alt="" width="23" height="30">
+        <span>Trampu</span>
+      </a>
+      <button class="menu-botao" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">☰</button>
+      <nav class="menu" id="menu" aria-label="Menu principal">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="vagas.html">Vagas</a></li>
+          <li data-visitante><a href="entrar.html">Entrar</a></li>
+          <li data-visitante class="destaque"><a href="cadastro.html" aria-current="page">Criar conta</a></li>
+          <li data-logado class="oculto"><a href="painel.html">Meu painel</a></li>
+          <li data-logado class="oculto"><a href="#" data-sair>Sair</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="titulo-pagina form-estreito" style="margin-bottom:0">
+      <h1>Criar conta</h1>
+      <p>Leva 2 minutos. Seus dados de contato só aparecem para quem você combinar um trampo.</p>
+    </section>
+
+    <form id="form-cadastro" class="form-estreito cartao" novalidate>
+      <div class="aviso" id="resumo-erros" role="alert" tabindex="-1"></div>
+
+      <fieldset>
+        <legend class="legenda">Que tipo de conta você quer?</legend>
+        <div class="seletor-conta">
+          <label>
+            <input type="radio" name="tipo" value="trabalhador" checked>
+            <strong>Quero trabalhar</strong>
+            <span>Encontrar vagas e bicos perto de mim</span>
+          </label>
+          <label>
+            <input type="radio" name="tipo" value="empregador">
+            <strong>Quero contratar</strong>
+            <span>Publicar vagas para a minha região</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="campo">
+        <label for="nome">Nome completo</label>
+        <input id="nome" name="nome" autocomplete="name" maxlength="100" aria-describedby="erro-nome">
+        <p class="erro-campo" id="erro-nome"></p>
+      </div>
+
+      <div class="linha-2">
+        <div class="campo">
+          <label for="username">Username</label>
+          <input id="username" name="username" autocomplete="username" maxlength="31" placeholder="joao.silva" aria-describedby="dica-username erro-username">
+          <span class="dica" id="dica-username">Seu perfil fica trampu/@username</span>
+          <p class="erro-campo" id="erro-username"></p>
+        </div>
+        <div class="campo so-trabalhador">
+          <label for="cpf">CPF</label>
+          <input id="cpf" name="cpf" inputmode="numeric" maxlength="14" placeholder="000.000.000-00" aria-describedby="erro-cpf">
+          <p class="erro-campo" id="erro-cpf"></p>
+        </div>
+        <div class="campo so-empregador oculto">
+          <label for="documento">CPF ou CNPJ</label>
+          <input id="documento" name="documento" inputmode="numeric" maxlength="18" aria-describedby="erro-documento">
+          <p class="erro-campo" id="erro-documento"></p>
+        </div>
+      </div>
+
+      <div class="linha-2">
+        <div class="campo">
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" autocomplete="email" maxlength="100" aria-describedby="erro-email">
+          <p class="erro-campo" id="erro-email"></p>
+        </div>
+        <div class="campo">
+          <label for="telefone">WhatsApp com DDD</label>
+          <input id="telefone" name="telefone" type="tel" autocomplete="tel" inputmode="tel" maxlength="16" placeholder="(12) 99999-9999" aria-describedby="erro-telefone">
+          <p class="erro-campo" id="erro-telefone"></p>
+        </div>
+      </div>
+
+      <div class="linha-2">
+        <div class="campo">
+          <label for="senha">Senha</label>
+          <input id="senha" name="senha" type="password" autocomplete="new-password" aria-describedby="dica-senha erro-senha">
+          <div class="forca" aria-hidden="true"><div id="barra-forca"></div></div>
+          <span class="dica" id="dica-senha">8 ou mais caracteres, com letras e números.</span>
+          <p class="erro-campo" id="erro-senha"></p>
+        </div>
+        <div class="campo">
+          <label for="senha2">Confirme a senha</label>
+          <input id="senha2" name="senha2" type="password" autocomplete="new-password" aria-describedby="erro-senha2">
+          <p class="erro-campo" id="erro-senha2"></p>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label for="cidade" id="rotulo-cidade">Cidade onde você mora</label>
+        <select id="cidade" name="cidade" aria-describedby="erro-cidade"></select>
+        <p class="erro-campo" id="erro-cidade"></p>
+      </div>
+
+      <div class="campo so-trabalhador">
+        <label for="atuacao">Em quais cidades você aceita trabalhar?</label>
+        <select id="atuacao" name="atuacao" multiple size="8" aria-describedby="dica-atuacao selecionadas-atuacao erro-atuacao"></select>
+        <span class="dica" id="dica-atuacao">Para marcar mais de uma, segure Ctrl (ou Cmd no Mac) e clique. No celular, toque em cada cidade.</span>
+        <span class="selecionadas" id="selecionadas-atuacao" aria-live="polite"></span>
+        <p class="erro-campo" id="erro-atuacao"></p>
+      </div>
+
+      <fieldset class="so-trabalhador" aria-describedby="erro-disponibilidade">
+        <legend class="legenda">Sua disponibilidade</legend>
+        <div class="opcoes" id="disponibilidade"></div>
+        <p class="erro-campo" id="erro-disponibilidade"></p>
+      </fieldset>
+
+      <div class="campo so-trabalhador">
+        <label for="habilidades">O que você sabe fazer? <span class="opcional">(opcional)</span></label>
+        <input id="habilidades" name="habilidades" maxlength="255" placeholder="Ex.: pedreiro, pintura, garçom">
+      </div>
+
+      <div class="campo so-empregador oculto">
+        <label for="negocio">Nome do negócio <span class="opcional">(opcional, pule se contrata como pessoa física)</span></label>
+        <input id="negocio" name="negocio" maxlength="100" placeholder="Ex.: Mercadinho do Zé">
+      </div>
+
+      <div class="campo">
+        <label for="descricao" id="rotulo-descricao">Conte um pouco sobre você <span class="opcional">(opcional)</span></label>
+        <textarea id="descricao" name="descricao" maxlength="500" placeholder="Ex.: Trabalho há 6 anos em pousadas, sou pontual e caprichosa."></textarea>
+      </div>
+
+      <button class="botao largo" type="submit" id="botao-criar">Criar minha conta</button>
+      <p style="text-align:center;margin:16px 0 0">Já tem conta? <a href="entrar.html">Entrar</a></p>
+    </form>
+  </main>
+
+  <footer class="rodape-site">
+    <div class="container">
+      <p><strong>Trampu</strong> · Global Solution 2026/2 · CitizenTech · FIAP</p>
+      <p>Protótipo com dados de exemplo · <button type="button" data-restaurar>Restaurar dados de exemplo</button></p>
+    </div>
+  </footer>
+
+  <script src="js/dados.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/senha.js"></script>
+  <script src="js/cadastro.js"></script>
+</body>
+</html>
