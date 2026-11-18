@@ -111,10 +111,3 @@ Use o mesmo período de observação ao comparar cidades. Para a taxa de preench
 | Pitch · 5 pontos possíveis | Roteiro com marcações de 0:00 a 3:00, fala e sequência de telas. Gravação, publicação e link público dependem do grupo. |
 
 O teste do navegador usou perfis fictícios. Não foi realizado estudo com usuários. A distribuição de pontos acima reproduz o enunciado e não representa nota concedida.
-
-## IA utilizada e entrega da equipe
-
-O **OpenAI Codex** foi utilizado para elaborar o planejamento, implementar e revisar os componentes, preparar os diagramas e o roteiro, executar verificações e registrar seus resultados. O **OpenAI ImageGen** criou a ilustração dos trabalhadores na página inicial. Os ativos são locais e o protótipo funciona sem chamadas a serviços de IA.
-
-Preencha o nome oficial do grupo, o nome completo e o RM de cada integrante e a URL pública do vídeo antes de enviar à FIAP. [Roteiro do pitch](PITCH.md) · [Identificação da equipe](integrantes.txt)
-
