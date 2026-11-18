@@ -1,0 +1,62 @@
+// Executar com Node 24, a partir de qualquer diretório.
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const vm = require("node:vm");
+const {DatabaseSync} = require("node:sqlite");
+const ler = arquivo => fs.readFileSync(path.join(__dirname,"..",arquivo),"utf8");
+
+const T = vm.runInNewContext(ler("web/js/dominio.js")+"\nTrampu");
+const db = T.inicial();
+const formulario = {...db.oportunidades[0],vagas:1};
+assert.throws(()=>T.publicar(db,6,formulario),/contratante/);
+for (const alteracao of [{valor:0},{valor:1.222},{vagas:0},{vagas:1.5},{data:"2000-01-01"},{fim:"01:00"}]) {
+    assert.throws(()=>T.publicar(db,1,{...formulario,...alteracao}));
+}
+const vaga = T.publicar(db,1,formulario);
+const outro = T.cadastrar(db,{nome:"Pessoa Teste",email:"teste@example.org",cidade:"Itu",tipo:"trabalhador",interesses:[]});
+assert.throws(()=>T.cadastrar(db,{nome:"Teste",cidade:"Itu",email:"TESTE@example.org",tipo:"trabalhador",interesses:[]}),/Já existe/);
+assert.throws(()=>T.candidatar(db,1,vaga),/trabalhador/);
+T.candidatar(db,6,vaga);
+assert.throws(()=>T.candidatar(db,6,vaga),/já foi enviada/);
+T.candidatar(db,outro,vaga);
+const [primeira,segunda]=T.candidatas(db,vaga);
+assert.throws(()=>T.decidir(db,2,primeira.id,true),/responsável/);
+T.decidir(db,1,primeira.id,true);
+assert.equal(T.vaga(db,vaga).status,"Preenchida");
+assert.equal(segunda.status,"Rejeitada");
+assert.throws(()=>T.decidir(db,1,segunda.id,true),/seleção/);
+assert.throws(()=>T.candidatar(db,outro,vaga),/não recebe/);
+assert.throws(()=>T.concluir(db,1,vaga),/horário final/);
+assert.throws(()=>T.avaliar(db,6,primeira.id,5,""),/concluído/);
+T.concluir(db,2,8);
+T.avaliar(db,6,2,4,"Boa experiência");
+T.avaliar(db,2,2,5,"Bom serviço");
+assert.throws(()=>T.avaliar(db,6,2,5,""),/já avaliou/);
+assert.throws(()=>T.avaliar(db,outro,2,5,""),/participação/);
+T.candidatar(db,6,5);
+const pendente=T.candidatas(db,5)[0];
+T.decidir(db,2,pendente.id,false);
+assert.equal(pendente.status,"Rejeitada");
+assert.equal(T.vaga(db,5).status,"Aberta");
+console.log("Web · perfis, validações, duplicidade, capacidade, rejeição, conclusão e avaliações OK");
+
+const sql = new DatabaseSync(":memory:");
+sql.exec(ler("banco/trampu.sql"));
+assert.equal(sql.prepare("PRAGMA integrity_check").get().integrity_check,"ok");
+assert.equal(sql.prepare("PRAGMA foreign_key_check").all().length,0);
+assert.equal(sql.prepare("SELECT count(*) AS n FROM usuario").get().n,5);
+const inserir = sql.prepare("INSERT INTO candidatura(trabalhador_id,oportunidade_id) VALUES (?,?)");
+assert.throws(()=>inserir.run(1,1),/trabalhador/);
+assert.throws(()=>inserir.run(4,2),/UNIQUE/);
+assert.throws(()=>inserir.run(4,4),/aberta/);
+assert.throws(()=>inserir.run(4,3),/aberta/);
+inserir.run(5,2);
+sql.exec("UPDATE candidatura SET status='Aprovada' WHERE oportunidade_id=2");
+assert.equal(sql.prepare("SELECT status FROM painel_oportunidade WHERE id=2").get().status,"Preenchida");
+assert.throws(()=>sql.exec("UPDATE oportunidade SET concluida=1 WHERE id=1"),/fim/);
+assert.throws(()=>sql.exec("INSERT INTO avaliacao VALUES(2,1,1,5,'')"),/participação/);
+sql.exec("INSERT INTO avaliacao VALUES(2,1,4,4,'Boa experiência')");
+assert.throws(()=>sql.exec("INSERT INTO avaliacao VALUES(3,1,4,5,'')"),/UNIQUE/);
+console.log("SQLite "+sql.prepare("SELECT sqlite_version() AS v").get().v+" · script, integridade, chaves, lotação e avaliações OK");
+sql.close();
