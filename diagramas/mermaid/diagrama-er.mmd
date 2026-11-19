@@ -1,0 +1,88 @@
+---
+title: Trampu - Diagrama Entidade-Relacionamento
+---
+erDiagram
+    CIDADE ||--o{ TRABALHADOR : "mora em"
+    CIDADE ||--o{ EMPREGADOR : "fica em"
+    CIDADE ||--o{ VAGA : "local da vaga"
+    CIDADE ||--o{ TRABALHADOR_CIDADE : "recebe"
+    TRABALHADOR ||--|{ TRABALHADOR_CIDADE : "aceita trabalhar em"
+    CATEGORIA ||--o{ VAGA : "classifica"
+    EMPREGADOR ||--o{ VAGA : "publica"
+    TRABALHADOR ||--o{ CANDIDATURA : "envia"
+    VAGA ||--o{ CANDIDATURA : "recebe"
+
+    CIDADE {
+        INTEGER id_cidade PK
+        VARCHAR(80) nome "NOT NULL, UNIQUE(nome, uf)"
+        CHAR(2) uf "NOT NULL"
+    }
+
+    CATEGORIA {
+        INTEGER id_categoria PK
+        VARCHAR(50) nome UK "NOT NULL"
+        VARCHAR(255) descricao
+    }
+
+    TRABALHADOR {
+        INTEGER id_trabalhador PK
+        VARCHAR(100) nome "NOT NULL"
+        VARCHAR(30) username UK "NOT NULL, CHECK 3 a 30"
+        CHAR(11) cpf UK "NOT NULL"
+        VARCHAR(100) email UK "NOT NULL"
+        VARCHAR(15) telefone "NOT NULL"
+        VARCHAR(255) senha_hash "NOT NULL, PBKDF2"
+        VARCHAR(500) descricao
+        VARCHAR(255) habilidades
+        VARCHAR(20) disponibilidade "CHECK"
+        INTEGER id_cidade FK "NOT NULL, onde mora"
+        DATE data_cadastro "DEFAULT CURRENT_DATE"
+    }
+
+    EMPREGADOR {
+        INTEGER id_empregador PK
+        VARCHAR(100) nome "NOT NULL"
+        VARCHAR(30) username UK "NOT NULL, CHECK 3 a 30"
+        VARCHAR(14) documento UK "NOT NULL, CPF ou CNPJ"
+        VARCHAR(100) email UK "NOT NULL"
+        VARCHAR(15) telefone "NOT NULL"
+        VARCHAR(255) senha_hash "NOT NULL, PBKDF2"
+        VARCHAR(500) descricao
+        VARCHAR(100) nome_negocio
+        INTEGER id_cidade FK "NOT NULL"
+        DATE data_cadastro "DEFAULT CURRENT_DATE"
+    }
+
+    TRABALHADOR_CIDADE {
+        INTEGER id_trabalhador PK, FK
+        INTEGER id_cidade PK, FK
+    }
+
+    VAGA {
+        INTEGER id_vaga PK
+        VARCHAR(100) titulo "NOT NULL"
+        VARCHAR(500) descricao "NOT NULL"
+        VARCHAR(12) tipo_vaga "NOT NULL, CHECK FIXO/TEMPORARIO/BICO"
+        DECIMAL valor "(10,2) NOT NULL, CHECK > 0"
+        VARCHAR(10) periodo_pagamento "NOT NULL, CHECK"
+        DATE data_inicio "CHECK: so TEMPORARIO/BICO"
+        DATE data_fim "CHECK: >= data_inicio"
+        VARCHAR(100) horario
+        VARCHAR(80) bairro
+        INTEGER quantidade "NOT NULL, CHECK > 0"
+        VARCHAR(10) status_vaga "NOT NULL, CHECK ABERTA/FECHADA"
+        INTEGER id_empregador FK "NOT NULL"
+        INTEGER id_cidade FK "NOT NULL"
+        INTEGER id_categoria FK "NOT NULL"
+        DATE data_publicacao "DEFAULT CURRENT_DATE"
+    }
+
+    CANDIDATURA {
+        INTEGER id_candidatura PK
+        INTEGER id_trabalhador FK "NOT NULL, UNIQUE(trabalhador, vaga)"
+        INTEGER id_vaga FK "NOT NULL"
+        VARCHAR(10) status_candidatura "NOT NULL, CHECK"
+        VARCHAR(255) mensagem
+        DATE data_candidatura "NOT NULL"
+        DATE data_resposta "CHECK: obrigatoria se respondida"
+    }

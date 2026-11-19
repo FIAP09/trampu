@@ -1,0 +1,157 @@
+---
+title: "Trampu - Diagrama de Classes (Java) - Parte 1 - Dominio (pacote model)"
+---
+classDiagram
+    direction TB
+
+    class Usuario {
+        <<abstract>>
+        -int id
+        -String nome
+        -String username
+        -String email
+        -String telefone
+        -String senhaHash
+        -String descricao
+        -Cidade cidade
+        -LocalDate dataCadastro
+        +Usuario(id, nome, username, email, telefone, senhaHash, cidade)
+        +getTipoConta()* String
+        +getNomeExibicao() String
+        +getters e setters()
+    }
+
+    class Trabalhador {
+        -String cpf
+        -String habilidades
+        -Disponibilidade disponibilidade
+        -List~Cidade~ cidadesAtuacao
+        +Trabalhador(id, nome, username, cpf, email, telefone, senhaHash, cidade, disponibilidade)
+        +getTipoConta() String
+        +atuaEm(Cidade) boolean
+        +adicionarCidadeAtuacao(Cidade) void
+        +removerCidadeAtuacao(Cidade) void
+        +getters e setters()
+    }
+
+    class Empregador {
+        -String documento
+        -String nomeNegocio
+        +Empregador(id, nome, username, documento, email, telefone, senhaHash, cidade)
+        +getTipoConta() String
+        +getNomeExibicao() String
+        +getters e setters()
+    }
+
+    class Cidade {
+        -int id
+        -String nome
+        -String uf
+        +Cidade(id, nome, uf)
+        +toString() String
+        +getters e setters()
+    }
+
+    class Categoria {
+        -int id
+        -String nome
+        -String descricao
+        +Categoria(id, nome, descricao)
+        +toString() String
+        +getters e setters()
+    }
+
+    class Vaga {
+        -int id
+        -String titulo
+        -String descricao
+        -TipoVaga tipo
+        -double valor
+        -PeriodoPagamento periodoPagamento
+        -LocalDate dataInicio
+        -LocalDate dataFim
+        -String horario
+        -String bairro
+        -int quantidade
+        -StatusVaga status
+        -Empregador empregador
+        -Cidade cidade
+        -Categoria categoria
+        -LocalDate dataPublicacao
+        +Vaga(id, titulo, descricao, tipo, valor, periodoPagamento, quantidade, empregador, cidade, categoria)
+        +isAberta() boolean
+        +getters e setters()
+    }
+
+    class Candidatura {
+        -int id
+        -Trabalhador trabalhador
+        -Vaga vaga
+        -StatusCandidatura status
+        -String mensagem
+        -LocalDate dataCandidatura
+        -LocalDate dataResposta
+        +Candidatura(id, trabalhador, vaga)
+        +isPendente() boolean
+        +isAceita() boolean
+        +getters e setters()
+    }
+
+    class TipoVaga {
+        <<enumeration>>
+        FIXO
+        TEMPORARIO
+        BICO
+        +getDescricao() String
+        +exigeDatas() boolean
+    }
+
+    class PeriodoPagamento {
+        <<enumeration>>
+        HORA
+        DIA
+        SEMANA
+        MES
+        TOTAL
+        +getDescricao() String
+    }
+
+    class StatusVaga {
+        <<enumeration>>
+        ABERTA
+        FECHADA
+    }
+
+    class StatusCandidatura {
+        <<enumeration>>
+        ENVIADA
+        ACEITA
+        RECUSADA
+        CANCELADA
+        +getDescricao() String
+    }
+
+    class Disponibilidade {
+        <<enumeration>>
+        INTEGRAL
+        MEIO_PERIODO
+        FINS_DE_SEMANA
+        BICOS
+        +getDescricao() String
+    }
+
+    Usuario <|-- Trabalhador
+    Usuario <|-- Empregador
+    Usuario "*" --> "1" Cidade : mora em
+    Trabalhador "*" --> "1..*" Cidade : cidadesAtuacao
+    Trabalhador --> Disponibilidade
+    Vaga "*" --> "1" Empregador : publicada por
+    Vaga "*" --> "1" Cidade : local
+    Vaga "*" --> "1" Categoria : categoria
+    Vaga --> TipoVaga
+    Vaga --> PeriodoPagamento
+    Vaga --> StatusVaga
+    Candidatura "*" --> "1" Trabalhador : candidato
+    Candidatura "*" --> "1" Vaga : vaga
+    Candidatura --> StatusCandidatura
+

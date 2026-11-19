@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar · Trampu</title>
+  <meta name="description" content="Entre na sua conta da Trampu.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="container">
+      <a class="marca" href="index.html" aria-label="Trampu, página inicial">
+        <img src="img/logo.svg" alt="" width="23" height="30">
+        <span>Trampu</span>
+      </a>
+      <button class="menu-botao" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">☰</button>
+      <nav class="menu" id="menu" aria-label="Menu principal">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="vagas.html">Vagas</a></li>
+          <li data-visitante><a href="entrar.html" aria-current="page">Entrar</a></li>
+          <li data-visitante class="destaque"><a href="cadastro.html">Criar conta</a></li>
+          <li data-logado class="oculto"><a href="painel.html">Meu painel</a></li>
+          <li data-logado class="oculto"><a href="#" data-sair>Sair</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="titulo-pagina form-estreito mini" style="margin-bottom:0">
+      <h1>Entrar</h1>
+      <p>Use seu username ou e-mail.</p>
+    </section>
+
+    <form id="form-entrar" class="form-estreito mini cartao" novalidate>
+      <div class="aviso" id="mensagem" role="alert"></div>
+
+      <div class="campo">
+        <label for="login">Username ou e-mail</label>
+        <input id="login" name="login" autocomplete="username" aria-describedby="erro-login">
+        <p class="erro-campo" id="erro-login"></p>
+      </div>
+
+      <div class="campo">
+        <label for="senha">Senha</label>
+        <input id="senha" name="senha" type="password" autocomplete="current-password" aria-describedby="erro-senha">
+        <p class="erro-campo" id="erro-senha"></p>
+      </div>
+
+      <button class="botao largo" type="submit" id="botao-entrar">Entrar</button>
+      <p style="text-align:center;margin:16px 0 0">Ainda não tem conta? <a href="cadastro.html">Criar conta</a></p>
+    </form>
+
+    <aside class="form-estreito mini aviso info" aria-label="Contas de teste">
+      <strong>Contas de teste</strong> (senha <code>Trampu@123</code>):<br>
+      trabalhadora <code>anapaula</code> · empregador <code>pousadaserrazul</code>
+    </aside>
+  </main>
+
+  <footer class="rodape-site">
+    <div class="container">
+      <p><strong>Trampu</strong> · Global Solution 2026/2 · CitizenTech · FIAP</p>
+      <p>Protótipo com dados de exemplo · <button type="button" data-restaurar>Restaurar dados de exemplo</button></p>
+    </div>
+  </footer>
+
+  <script src="js/dados.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/senha.js"></script>
+  <script src="js/entrar.js"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+---
+title: "Trampu - Diagrama de Classes (Java) - Parte 2 - Camadas view, service e dados"
+---
+classDiagram
+    direction TB
+
+    %% ===================== dados =====================
+    class BaseDeDados {
+        -List~Cidade~ cidades
+        -List~Categoria~ categorias
+        -List~Trabalhador~ trabalhadores
+        -List~Empregador~ empregadores
+        -List~Vaga~ vagas
+        -List~Candidatura~ candidaturas
+        +BaseDeDados()
+        +getCidades() List~Cidade~
+        +getCategorias() List~Categoria~
+        +getTrabalhadores() List~Trabalhador~
+        +getEmpregadores() List~Empregador~
+        +getVagas() List~Vaga~
+        +getCandidaturas() List~Candidatura~
+        +proximoIdTrabalhador() int
+        +proximoIdEmpregador() int
+        +proximoIdVaga() int
+        +proximoIdCandidatura() int
+        -carregarDadosIniciais() void
+    }
+
+    class Entidades {
+        <<pacote model>>
+        Cidade, Categoria
+        Trabalhador, Empregador
+        Vaga, Candidatura
+        ver Parte 1
+    }
+    BaseDeDados "1" o-- "*" Entidades : listas em memoria
+
+    %% ===================== service =====================
+    class CatalogoService {
+        -BaseDeDados base
+        +listarCidades() List~Cidade~
+        +listarCategorias() List~Categoria~
+        +buscarCidade(int) Cidade
+        +buscarCategoria(int) Categoria
+    }
+
+    class UsuarioService {
+        -BaseDeDados base
+        +cadastrarTrabalhador(...) Trabalhador
+        +cadastrarEmpregador(...) Empregador
+        +entrar(login, senha) Usuario
+        +alterarSenha(Usuario, atual, nova) void
+        +atualizarPerfil(Usuario, telefone, descricao) void
+        +atualizarDadosTrabalhador(Trabalhador, habilidades, disponibilidade) void
+        +adicionarCidadeAtuacao(Trabalhador, Cidade) void
+        +removerCidadeAtuacao(Trabalhador, Cidade) void
+        +todosUsuarios() List~Usuario~
+        +trabalhadoresQueAtuamEm(Cidade) List~Trabalhador~
+        +verificarUsernameLivre(String) void
+        +verificarEmailLivre(String) void
+    }
+
+    class VagaService {
+        -BaseDeDados base
+        +publicar(...) Vaga
+        +buscarPorId(int) Vaga
+        +buscarDoEmpregador(Empregador, int) Vaga
+        +listarAbertas() List~Vaga~
+        +listarPorEmpregador(Empregador) List~Vaga~
+        +filtrar(Cidade, Categoria, TipoVaga, String) List~Vaga~
+        +compativeisCom(Trabalhador) List~Vaga~
+        +contarAceitos(Vaga) int
+        +lugaresRestantes(Vaga) int
+        +atualizar(...) void
+        +fechar(Empregador, Vaga) int
+        +remover(Empregador, Vaga) void
+        -validarDados(...) void
+    }
+
+    class CandidaturaService {
+        -BaseDeDados base
+        -VagaService vagaService
+        +candidatar(Trabalhador, Vaga) Candidatura
+        +cancelar(Trabalhador, Candidatura) void
+        +aceitar(Empregador, Candidatura, mensagem) boolean
+        +recusar(Empregador, Candidatura, mensagem) void
+        +listarDoTrabalhador(Trabalhador) List~Candidatura~
+        +listarDaVaga(Vaga) List~Candidatura~
+        +listarPendentesDoEmpregador(Empregador) List~Candidatura~
+        +buscarDoTrabalhador(Trabalhador, int) Candidatura
+        +buscarDoEmpregador(Empregador, int) Candidatura
+        +contatoLiberado(Candidatura) boolean
+    }
+
+    class SenhaUtil {
+        <<utility>>
+        -int ITERACOES = 600000$
+        +gerarHash(String)$ String
+        +verificar(String, String)$ boolean
+    }
+
+    class Validador {
+        <<utility>>
+        +obrigatorio(valor, campo, max)$ String
+        +opcional(valor, campo, max)$ String
+        +username(String)$ String
+        +email(String)$ String
+        +telefone(String)$ String
+        +cpf(String)$ String
+        +documento(String)$ String
+        +senhaForte(String)$ void
+    }
+
+    class RegraNegocioException {
+        +RegraNegocioException(String)
+    }
+
+    RuntimeException <|-- RegraNegocioException
+    CatalogoService --> BaseDeDados
+    UsuarioService --> BaseDeDados
+    VagaService --> BaseDeDados
+    CandidaturaService --> BaseDeDados
+    CandidaturaService --> VagaService
+    UsuarioService ..> SenhaUtil
+    UsuarioService ..> Validador
+    VagaService ..> Validador
+    Validador ..> RegraNegocioException : lança
+
+    %% ===================== view =====================
+    class Main {
+        +main(String[])$ void
+    }
+
+    class MenuPrincipal {
+        +iniciar() void
+        -entrar() void
+        -criarContaTrabalhador() void
+        -criarContaEmpregador() void
+        -verVagasSemLogin() void
+    }
+
+    class MenuTrabalhador {
+        +abrir(Trabalhador) void
+        -vagasParaMim(Trabalhador) void
+        -buscarVagas(Trabalhador) void
+        -verECandidatar(Trabalhador, Integer) void
+        -minhasCandidaturas(Trabalhador) void
+        -meuPerfil(Trabalhador) void
+    }
+
+    class MenuEmpregador {
+        +abrir(Empregador) void
+        -publicar(Empregador) void
+        -minhasVagas(Empregador) void
+        -verVaga(Empregador) void
+        -editar(Empregador) void
+        -fechar(Empregador) void
+        -remover(Empregador) void
+        -responderCandidaturas(Empregador) void
+        -encontrarTrabalhadores() void
+        -meuPerfil(Empregador) void
+    }
+
+    class Console {
+        -Scanner scanner
+        +lerTexto(String) String
+        +lerOpcional(String) String
+        +lerValidado(String, UnaryOperator) String
+        +lerSenha(String) String
+        +lerInteiro(String, int, int) int
+        +lerValor(String) double
+        +lerData(String) LocalDate
+        +confirmar(String) boolean
+        +escolher(String, List) T
+    }
+
+    class Exibicao {
+        <<utility>>
+        +moeda(double)$ String
+        +data(LocalDate)$ String
+        +telefone(String)$ String
+        +quando(Vaga)$ String
+        +resumo(Vaga)$ String
+        +detalhes(Vaga, int)$ void
+        +perfil(Usuario)$ void
+        +perfilPublico(Usuario)$ void
+    }
+
+    Main ..> BaseDeDados : cria
+    Main ..> MenuPrincipal : inicia
+    MenuPrincipal --> MenuTrabalhador
+    MenuPrincipal --> MenuEmpregador
+    MenuPrincipal --> Console
+    MenuPrincipal --> UsuarioService
+    MenuTrabalhador --> VagaService
+    MenuTrabalhador --> CandidaturaService
+    MenuEmpregador --> VagaService
+    MenuEmpregador --> CandidaturaService
+    MenuTrabalhador ..> Exibicao
+    MenuEmpregador ..> Exibicao
