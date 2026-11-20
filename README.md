@@ -13,11 +13,6 @@
   Global Solution 2026/2 - <strong>CitizenTech</strong> - FIAP - Engenharia de Software
 </p>
 
-<p align="center">
-  <a href="#">🌐 Protótipo no ar</a> ·
-  <a href="#">🎬 Vídeo pitch</a>
-</p>
-
 ---
 
 ## Sumário
